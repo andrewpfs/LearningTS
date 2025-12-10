@@ -4,19 +4,25 @@ import CardList from './Components/CardList/CardList';
 import Search from './Components/Search/Search';
 import { CompanySearch } from './company';
 import { searchCompanies } from './api';
+import ListPortfolio from './Components/Portfolio/AddPortfolio/ListPortfolio/ListPortfolio';
 
 function App() {
   const [search, setSearch] = useState<string>("")
   const [searchResult, setSearchResult] = useState<CompanySearch[]>([])
   const [serverError, setServerError] = useState<Error | null> (null) //either takes in an error or defaults at null
+  const [portfolioValues, setPortfolioValues] = useState<string[]>([])
   
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value)
     //console.log(event);
   }
-  const onPortfolioCreate = (event: SyntheticEvent) => {
+  const onPortfolioCreate = (event: any) => {
     event.preventDefault() //this is added to stop page from reefreshing
-    console.log(event)
+    const exists = portfolioValues.find((value) => value === event.target[0].value)
+    if (exists) return
+    const updatedPortfolio = [...portfolioValues, event.target[0].value]
+    setPortfolioValues(updatedPortfolio)
+    //console.log(event)
   }
 
   const onSearchSubmit = async (event: SyntheticEvent) => {
@@ -32,9 +38,17 @@ function App() {
   
   return (
     <div className = "App">
-      <Search onSearchSubmit={onSearchSubmit} search={search} handleSearchChange={handleSearchChange}/>
+      <Search 
+        onSearchSubmit={onSearchSubmit} 
+        search={search} 
+        handleSearchChange={handleSearchChange}
+      />
+      <ListPortfolio portfolioValues = {portfolioValues}/>
       {serverError && <h1>{serverError.message}</h1>}
-      <CardList searchResults={searchResult} onPortfolioCreate={onPortfolioCreate}/>
+      <CardList 
+        searchResults={searchResult} 
+        onPortfolioCreate={onPortfolioCreate}
+      />
     </div>
   );
 }
