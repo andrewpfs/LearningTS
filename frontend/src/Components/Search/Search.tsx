@@ -1,4 +1,4 @@
-import React, { ChangeEvent, JSX, useState, SyntheticEvent } from 'react'
+import React, { ChangeEvent, JSX, SyntheticEvent } from 'react'
 
 interface Props {
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void

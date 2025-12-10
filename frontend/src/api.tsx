@@ -10,6 +10,6 @@ export const searchCompanies = async (query : string): Promise<CompanySearch[]> 
       throw new Error(`Response status: ${res.status}`)
     }
     const result = await res.json()
-    console.log(result)
+//  console.log(result)
     return result
 }
