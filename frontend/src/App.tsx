@@ -10,12 +10,17 @@ function App() {
   const [searchResult, setSearchResult] = useState<CompanySearch[]>([])
   const [serverError, setServerError] = useState<Error | null> (null) //either takes in an error or defaults at null
   
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value)
-    console.log(event);
+    //console.log(event);
+  }
+  const onPortfolioCreate = (event: SyntheticEvent) => {
+    event.preventDefault() //this is added to stop page from reefreshing
+    console.log(event)
   }
 
-  const onClick = async (event: SyntheticEvent) => {
+  const onSearchSubmit = async (event: SyntheticEvent) => {
+    event.preventDefault()
     try {
       const data = await searchCompanies(search);
       setSearchResult(data);
@@ -27,9 +32,9 @@ function App() {
   
   return (
     <div className = "App">
-      <Search onClick={onClick} search={search} handleChange={handleChange}/>
+      <Search onSearchSubmit={onSearchSubmit} search={search} handleSearchChange={handleSearchChange}/>
       {serverError && <h1>{serverError.message}</h1>}
-      <CardList searchResults={searchResult}/>
+      <CardList searchResults={searchResult} onPortfolioCreate={onPortfolioCreate}/>
     </div>
   );
 }
