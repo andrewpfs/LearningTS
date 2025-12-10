@@ -1,5 +1,5 @@
 import React, { JSX } from "react";
-import Card from "../Card";
+import Card from "../Card/Card";
 
 interface Props {}
 
